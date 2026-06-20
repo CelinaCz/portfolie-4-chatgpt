@@ -47,63 +47,21 @@ nav a{
   text-decoration:none;
   color:var(--dark);
 }
-<div class="hero">
-  <div class="wool" onclick="startThread(this)"></div>
-  <div class="thread" id="thread"></div>
 
-  <h1>Der rote Faden meiner Entwicklung</h1>
-  <p>Kreativ denken. Strukturiert umsetzen.</p>
-</div>
-}
-.wool{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      #ffffff,
-      #ffffff 6px,
-      #f3d6de 6px,
-      #f3d6de 12px
-    );
-  cursor:pointer;
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,var(--rose),var(--mauve));
+  color:white;
   position:relative;
-  box-shadow:0 15px 30px rgba(0,0,0,0.25);
-  animation:float 3s ease-in-out infinite, spin 8s linear infinite;
+  overflow:hidden;
 }
 
-/* Fadenstruktur */
-.wool::before,
-.wool::after{
-  content:"";
-  position:absolute;
-  inset:10px;
-  border-radius:50%;
-  border:2px dashed rgba(181,122,168,0.4);
-}
-
-/* kleine "Garnspannung" */
-.wool::after{
-  inset:18px;
-  border:2px dotted rgba(232,166,184,0.5);
-}
-
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
-}
-
-/* Klick-Animation */
-.wool.active{
-  animation:explode 1.2s ease forwards;
-}
-
-@keyframes explode{
-  0%{transform:scale(1) rotate(0);}
-  50%{transform:scale(1.2) rotate(180deg);}
-  100%{transform:scale(0.2) rotate(360deg); opacity:0;}
-}
 .wool{
   width:80px;
   height:80px;
@@ -113,7 +71,14 @@ nav a{
   animation:float 3s ease-in-out infinite;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
-
+.wool{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  ...
+  position:relative;
+  z-index:2;
+}
 @keyframes float{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
@@ -127,7 +92,8 @@ nav a{
   top:50%;
   left:50%;
   transform:translateX(-50%);
-  transition:all 1s ease;
+  transition:height 1s ease;
+  z-index:1;
 }
 
 /* SECTIONS */
@@ -217,10 +183,13 @@ h2{
 
 <!-- HERO -->
 <div class="hero">
-  <div class="wool" onclick="startThread()"></div>
+
+  <div class="wool" onclick="startThread(this)"></div>
   <div class="thread" id="thread"></div>
+
   <h1>Der rote Faden meiner Entwicklung</h1>
   <p>Kreativ denken. Strukturiert umsetzen.</p>
+
 </div>
 
 <!-- ABOUT -->
@@ -305,21 +274,6 @@ const observer = new IntersectionObserver(entries=>{
 faders.forEach(el=>observer.observe(el));
 
 </script>
-function startThread(el){
-  const thread = document.getElementById("thread");
 
-  // Knäuel Animation
-  el.classList.add("active");
-
-  // Faden wächst langsam
-  setTimeout(()=>{
-    thread.style.height = "80vh";
-  }, 400);
-
-  // optional: Scroll in Inhalt
-  setTimeout(()=>{
-    document.getElementById("about").scrollIntoView({behavior:"smooth"});
-  }, 1200);
-}
 </body>
 </html>
