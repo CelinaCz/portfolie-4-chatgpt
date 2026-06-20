@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celina Czernik | Der rote Faden</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#fff7f9;
+  --rose:#e8a6b8;
+  --mauve:#b57aa8;
+  --dark:#2b2b2b;
+  --card:#ffffff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins, sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--dark);
+  overflow-x:hidden;
+}
+
+/* NAV */
+nav{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:white;
+  display:flex;
+  justify-content:space-between;
+  padding:12px 30px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  z-index:1000;
+}
+
+nav a{
+  margin:0 10px;
+  text-decoration:none;
+  color:var(--dark);
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,var(--rose),var(--mauve));
+  color:white;
+  position:relative;
+}
+
+.wool{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:white;
+  cursor:pointer;
+  animation:float 3s ease-in-out infinite;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+.thread{
+  position:absolute;
+  width:3px;
+  height:0;
+  background:white;
+  top:50%;
+  left:50%;
+  transform:translateX(-50%);
+  transition:all 1s ease;
+}
+
+/* SECTIONS */
+section{
+  padding:100px 15%;
+}
+
+h2{
+  margin-bottom:20px;
+}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+  margin-top:15px;
+}
+
+/* LOGISTICS GAME */
+.game{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+}
+
+.nodes{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+.node{
+  padding:10px 15px;
+  border-radius:10px;
+  background:var(--bg);
+  cursor:pointer;
+  border:1px solid var(--rose);
+}
+
+.result{
+  margin-top:15px;
+  font-weight:600;
+}
+
+/* SLIDESHOW */
+.slideshow{
+  display:flex;
+  overflow-x:auto;
+  gap:10px;
+}
+
+.slide{
+  min-width:200px;
+  height:150px;
+  background:var(--rose);
+  border-radius:10px;
+}
+
+/* FADE */
+.fade{
+  opacity:0;
+  transform:translateY(20px);
+  transition:1s;
+}
+
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div><b>Celina Czernik</b></div>
+  <div>
+    <a href="#about">Ich</a>
+    <a href="#marketing">Marketing</a>
+    <a href="#logistik">Logistik</a>
+    <a href="#contact">Kontakt</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wool" onclick="startThread()"></div>
+  <div class="thread" id="thread"></div>
+  <h1>Der rote Faden meiner Entwicklung</h1>
+  <p>Kreativ denken. Strukturiert umsetzen.</p>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="fade">
+<h2>Wer ich bin</h2>
+<div class="card">
+Ich bin Celina Czernik, BWL Studentin an der TH Wildau mit den Vertiefungen Marketing sowie Produktion & Logistik.
+Meine Stärke liegt darin, kreative Ideen mit strukturiertem Denken zu verbinden.
+</div>
+</section>
+
+<!-- MARKETING -->
+<section id="marketing" class="fade">
+<h2>Ideen entwickeln – Marketing</h2>
+
+<div class="card">
+<b>Projekt 1: Startup Festival</b><br>
+Zielgruppenanalyse Gen Z & Millennials, Entwicklung eines Marketingkonzepts und Plakatgestaltung.
+</div>
+
+<div class="slideshow">
+<div class="slide"></div>
+<div class="slide"></div>
+<div class="slide"></div>
+</div>
+</section>
+
+<!-- LOGISTICS -->
+<section id="logistik" class="fade">
+<h2>Ideen umsetzen – Produktion & Logistik</h2>
+
+<div class="game">
+<b>Logistik-Spiel</b><br><br>
+Wähle den besten Weg:
+
+<div class="nodes">
+<div class="node" onclick="calc(24)">Lager A</div>
+<div class="node" onclick="calc(18)">Lager B</div>
+<div class="node" onclick="calc(30)">Lager C</div>
+</div>
+
+<div class="result" id="result"></div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="fade">
+<h2>Kontakt</h2>
+<div class="card">
+Email | LinkedIn
+</div>
+</section>
+
+<script>
+
+/* WOLLKNÄUEL START */
+function startThread(){
+  const thread = document.getElementById("thread");
+  thread.style.height = "80vh";
+}
+
+/* LOGISTICS GAME */
+function calc(km){
+  let optimal = 18;
+  let diff = Math.abs(km - optimal);
+
+  if(diff === 0){
+    document.getElementById("result").innerText = "Optimaler Weg gewählt!";
+  } else {
+    document.getElementById("result").innerText = "Nicht optimal – bessere Route möglich.";
+  }
+}
+
+/* SCROLL ANIMATION */
+const faders = document.querySelectorAll(".fade");
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add("show");
+  });
+});
+
+faders.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>
